@@ -1,0 +1,14 @@
+#infotable tr td:nth-child(3) {
+    color: red;
+}
+span {
+    color: red;
+}
+
+billetter {
+    font-weight: bolder;
+}
+.bolder {
+    font-weight: bolder;
+    font-size: 1.2rem;
+}

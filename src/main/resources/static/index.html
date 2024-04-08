@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <title>Billetbestilling</title>
+    <link rel="stylesheet" href="./stylesheets/style.css">
+    <script src="./scripts/jquery.js"></script>
+</head>
+<body class="bg-gradient-primary">
+
+<div class="d-flex justify-content-center flex-column w-50 h-100 mx-auto">
+<h1>Bestilling av kinobilletter</h1>
+
+
+<label for="valg">Velg film</label><select name="" id="valg" class="w-80">
+    <option value="">Velg Film</option>
+    <option value="Titanic">Titanic</option>
+    <option value="Interstellar">Interstellar</option>
+</select><span id="valgErr"></span>
+
+
+
+<br> <br>
+
+<br>
+<table id="infotable">
+    <tr class="antallRad">
+        <td><label for="antall">Antall</label></td>
+        <td><input type="number" id="antall"></td>
+        <td></td>
+    </tr>
+    <tr class="fornavnRad">
+        <td><label for="fornavn">Fornavn</label></td>
+        <td><input type="text" name="" id="fornavn"></td>
+        <td></td>
+    </tr>
+    <tr class="etternavnRad">
+        <td><label for="etternavn">Etternavn</label></td>
+        <td><input type="text" name="" id="etternavn"></td>
+        <td></td>
+    </tr>
+    <tr class="telefonRad">
+        <td><label for="telefonnr">Telefonnummer</label></td>
+        <td><input type="text" name="" id="telefonnr"></td>
+        <td></td>
+    </tr>
+    <tr class="epostRad">
+        <td><label for="epost">E-Post</label>
+        <td><input type="text" name="" id="epost"></td>
+        <td></td>
+    </tr>
+</table>
+<input type="submit" id="purchase" value="Kjøp billett">
+
+    <br>
+<h1>Alle billetter</h1>
+
+<table class="billetter">
+</table>
+<input type="submit" id="deleteall" value="Slett alle billettene">
+
+</div>
+
+
+</body>
+<script src="./scripts/index.js"></script>
+<script src="./scripts/postTest.js"></script>
+</html>
