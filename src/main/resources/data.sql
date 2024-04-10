@@ -1,0 +1,1 @@
+insert into ticket(movieName, amount, firstName, lastName, phoneNumber, eMail) values ('Interstellar', 1, 'Eirik', 'Kristoffersen', '40528080', 'eirik.h.kristoffersen@gmail.com');
