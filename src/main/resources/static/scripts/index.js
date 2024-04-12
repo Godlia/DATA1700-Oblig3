@@ -28,6 +28,11 @@ const errElements = [valgErr, antallErr, fnavnErr, enavnErr, tlfErr, epostErr];
 document.querySelector("#purchase").addEventListener("click", purchase);
 
 
+//for deleting specific tickets
+const IDTicketDeleteEl = document.getElementById("slettbillettID");
+
+IDTicketDeleteEl.addEventListener("click", deleteEntry);
+
 function validateInput() {
     //empty list
     errorlist = [];
@@ -53,9 +58,39 @@ function validateInput() {
 }
 
 function emptyTickets() {
-    $.post("/delete")
-    updateView();
+    $.ajax({
+        url: '/deleteAll',
+        type: 'DELETE',
+        success: function (result) {
+            updateView();
+        }
+    }).fail(() => {
+        console.log("walla");
+    });
 }
+
+
+function deleteEntry() {
+    let idValue = Number(document.getElementById("IDvelger").value);
+
+    let requestBody = {
+        ID: idValue
+    }
+
+    $.ajax({
+        url: '/deleteEntry',
+        type: 'DELETE',
+        contentType: "text/plain",
+        data: idValue.toString(), // Send data in the request body
+        success: function (result) {
+            updateView();
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
 
 function clearErrors() {
     errElements.forEach((item) => {
@@ -94,7 +129,7 @@ function showErrors(errorlist) {
 
 function updateView() {
     ticketarr = [];
-    $.getJSON("/getList", (data) => {
+    $.getJSON("/findAll", (data) => {
             ticketarr = data;
         }
     ).done(() => {
@@ -125,7 +160,7 @@ function updateView() {
 
 
     });
-    }
+}
 
 function addTicket() {
     let requestData = {
@@ -155,7 +190,6 @@ function addTicket() {
     }).done(() => {
         updateView();
     });
-
 
 
 }

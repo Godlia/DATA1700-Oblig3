@@ -1,20 +1,40 @@
 package com.example.oblig3;
 
 public class Ticket {
+    private int ID;
     private String movieName;
-    private String amount;
+    private int amount;
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String eMail;
 
-    public Ticket(String movieName, String amount, String firstName, String lastName, String phoneNumber, String eMail) {
+    public Ticket(int ID,String movieName, int amount, String firstName, String lastName, String phoneNumber, String eMail) {
+        this.ID = ID;
         this.movieName = movieName;
         this.amount = amount;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.eMail = eMail;
+    }
+    public Ticket() {}
+
+    public Ticket(String movieName, int amount, String firstName, String lastName, String phoneNumber, String eMail) {
+        this.movieName = movieName;
+        this.amount = amount;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.eMail = eMail;
+    }
+
+    public long getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getMovieName() {
@@ -25,11 +45,11 @@ public class Ticket {
         this.movieName = movieName;
     }
 
-    public String getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
