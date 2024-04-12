@@ -46,7 +46,7 @@ public class TicketRepository {
         jdbcTemplate.update(sql, ID);
     }
     public List<Ticket> findAll() {
-        String sql = "SELECT * FROM TICKET";
+        String sql = "SELECT * FROM TICKET ORDER BY lastName";
         return jdbcTemplate.query(sql, new TicketRowMapper());
     }
 }

@@ -142,6 +142,7 @@ function updateView() {
             "        <td>Etternavn</td>\n" +
             "        <td>Telefonnummer</td>\n" +
             "        <td>E-Post</td>\n" +
+            "        <td>ID</td>" +
             "    </tr>";
         //debugger;
 
@@ -149,7 +150,6 @@ function updateView() {
         //with arrowfunctions
         ticketarr.forEach((item) => {
             out += "<tr>";
-            console.log(item);
             Object.values(item).forEach((value) => {
                 out += "<td>" + value + "</td>";
             });
