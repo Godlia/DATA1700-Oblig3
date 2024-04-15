@@ -23,12 +23,6 @@ public class TicketHandler {
         ticketRepository.insertTicket(ticket);
     }
 
-
-    @GetMapping("/getList")
-    public void hey() {
-        System.out.println("getReq");
-    }
-
     @DeleteMapping("/deleteAll")
     public void deleteList() {
         System.out.println("wa");
