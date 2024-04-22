@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class TicketHandler {
+public class TicketController {
     @Autowired
     TicketRepository ticketRepository;
 
