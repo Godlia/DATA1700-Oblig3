@@ -87,7 +87,6 @@ function updateByID(ID, choice, newVal) {
         data: JSON.stringify(requestData),
         success: function (response) {
             console.log("Success:", response);
-            // Handle success response here
         },
         error: function (xhr, status, error) {
             console.error("Error:", error);
