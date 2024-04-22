@@ -1,10 +1,26 @@
-//set ticketarray and the area where they are displayed
+//set ticketarray to global scope and the area where they are displayed
 let ticketarr = [];
 let ticketView = document.querySelector(".billetter");
 document.querySelector("#deleteall").addEventListener("click", emptyTickets);
 
+//for updating specific tickets
+let idUpdateEL = document.getElementById("UpdateTicketID");
+let infoUpdateEL = document.getElementById("updateticketInfo");
+let updateValueEL = document.getElementById("newValue");
+document.getElementById("updateValue").addEventListener("click", () => {
+    let id = Number(idUpdateEL.value);
+    let choice = infoUpdateEL.value;
+    let newVal = updateValueEL.value;
+    updateByID(id, choice, newVal);
+});
+
+
+
+
 let tlfRegEx = new RegExp(/^[0-9]{8}$/);
-let epostRegEx = new RegExp(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/)
+let epostRegEx = new RegExp(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/);
+
+document.querySelector("#adminButton").addEventListener("click", showHideAdmin);
 
 
 //set to global scope
@@ -57,37 +73,29 @@ function validateInput() {
     return errorlist;
 }
 
-function emptyTickets() {
+function updateByID(ID, choice, newVal) {
+    console.log("ID: ", ID);
+    let requestData = {
+        id: ID,
+        column: choice,
+        newValue: newVal
+    };
     $.ajax({
-        url: '/deleteAll',
-        type: 'DELETE',
-        success: function (result) {
-            updateView();
-        }
-    }).fail(() => {
-        console.log("walla");
-    });
-}
-
-
-function deleteEntry() {
-    let idValue = Number(document.getElementById("IDvelger").value);
-
-    let requestBody = {
-        ID: idValue
-    }
-
-    $.ajax({
-        url: '/deleteEntry',
-        type: 'DELETE',
-        contentType: "text/plain",
-        data: idValue.toString(), // Send data in the request body
-        success: function (result) {
-            updateView();
+        type: "PUT",
+        url: "/updateTicket", // Change this URL to match your endpoint
+        contentType: "application/json",
+        data: JSON.stringify(requestData),
+        success: function (response) {
+            console.log("Success:", response);
+            // Handle success response here
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error("Error:", error);
+            alert("Noe gikk galt!")
         }
+        //wait for callback
+    }).done(() => {
+        updateView();
     });
 }
 
@@ -121,11 +129,35 @@ function showErrors(errorlist) {
                 epostErr.innerHTML = "Skriv inn en e-post adresse";
                 break;
             default:
-                alert("intern feil");
+                alert("Intern feil");
         }
     });
 }
 
+function purchase() {
+    //get values each buy-event, to avoid values being stored across purchases
+    filmvalg = document.getElementById("valg").value;
+    antall = String(document.getElementById("antall").value);
+    fornavn = document.getElementById("fornavn").value;
+    etternavn = document.getElementById("etternavn").value;
+    telefonnr = document.getElementById("telefonnr").value;
+    epost = document.getElementById("epost").value;
+    //update the array with the new values (somehow this needs to be here)
+    valElements = [filmvalg, antall, fornavn, etternavn, telefonnr, epost];
+    //get the errors
+    let errors = validateInput();
+
+    //if no errors, go ahead else - show errors
+    if (errors.length === 0) {
+        clearErrors();
+        addTicket();
+    } else {
+        clearErrors();
+        showErrors(errors);
+        updateView();
+    }
+
+}
 
 function updateView() {
     ticketarr = [];
@@ -154,9 +186,9 @@ function updateView() {
                 out += "<td>" + value + "</td>";
             });
             out += "</tr>";
-        })
+        });
 
-        ticketView.innerHTML = out
+        ticketView.innerHTML = out;
 
 
     });
@@ -171,7 +203,6 @@ function addTicket() {
         phoneNumber: telefonnr,
         eMail: epost,
     };
-    console.log(JSON.stringify(requestData));
 
     $.ajax({
         type: "POST",
@@ -193,32 +224,39 @@ function addTicket() {
 
 
 }
+function emptyTickets() {
+    $.ajax({
+        url: '/deleteAll',
+        type: 'DELETE',
+        success: function () {
+            updateView();
+        }
+    }).fail(() => {
+        alert("Something went wrong!");
+    });
+}
+function deleteEntry() {
+    let idValue = Number(document.getElementById("IDvelger").value);
 
-function purchase() {
-    //get values each buy-event, to avoid values being stored across purchases
-    filmvalg = document.getElementById("valg").value;
-    antall = String(document.getElementById("antall").value);
-    fornavn = document.getElementById("fornavn").value;
-    etternavn = document.getElementById("etternavn").value;
-    telefonnr = document.getElementById("telefonnr").value;
-    epost = document.getElementById("epost").value;
-    //update the array with the new values (somehow this needs to be here)
-    valElements = [filmvalg, antall, fornavn, etternavn, telefonnr, epost];
-    //get the errors
-    let errors = validateInput();
-
-    //if no errors, go ahead
-    if (errors.length === 0) {
-        clearErrors();
-        addTicket();
-        //alert("Suksess"); // alert to give the server some time to respond
-    } else {
-        clearErrors();
-        showErrors(errors);
-        updateView();
-    }
-
+    $.ajax({
+        url: '/deleteEntry',
+        type: 'DELETE',
+        contentType: "text/plain",
+        data: idValue.toString(), // Send data in the request body
+        success: function () {
+            updateView();
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+        }
+    });
 }
 
-//når all koden har kjørt så laster vi tabellen (tilfelle man bruker cookies for å lagre/hente arrayen senere)
-//updateView();
+function showHideAdmin() {
+    let admin = document.querySelector("#admin");
+    if (admin.style.display === "none") {
+        admin.style.display = "block";
+    } else {
+        admin.style.display = "none";
+    }
+}
