@@ -49,10 +49,6 @@ public class TicketRepository {
         String sql = "SELECT * FROM TICKET ORDER BY lastName";
         return jdbcTemplate.query(sql, new TicketRowMapper());
     }
-    public Ticket getTicket(int ID) {
-        String sql = "SELECT * FROM TICKET WHERE ID = " + ID;
-        return jdbcTemplate.queryForObject(sql, new TicketRowMapper());
-    }
 
     public void updateTicket(int ID, String column, String value) {
         String sql = "UPDATE TICKET SET " + column + " = ? WHERE ID = ?";
